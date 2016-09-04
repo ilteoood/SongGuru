@@ -3,6 +3,7 @@ package it.unimi.di.sweng.SongGuru;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hyurumi.fb_bot_boilerplate.models.send.Message;
 import com.vdurmont.emoji.EmojiParser;
 
 public class WaitForRequest implements BotState {
@@ -16,25 +17,26 @@ public class WaitForRequest implements BotState {
 	private static final String TRACK_TITLE = EmojiParser.parseToUnicode(":musical_note:");
 	private static final String ARTIST_NAME = EmojiParser.parseToUnicode(":microphone:");
 
-	private final Long chatId;
-	private final HashMap<String, String> methodInvocation = new HashMap<String, String>();
+	private final String chatId;
+	private final HashMap<String, Message> methodInvocation = new HashMap<String, Message>();
 
 	private static final MessageSender SENDER = BotPersistence.SENDER;
 
-	public WaitForRequest(final Long chatId, final TrackInfo track) {
+	public WaitForRequest(final String chatId, final TrackInfo track) {
 		final String trackInfo = insert(track);
 		this.chatId = chatId;
 		SENDER.sendMessage(chatId, trackInfo);
-		methodInvocation.put(CommandHelper.TRACK_INFO, trackInfo);
-		methodInvocation.put(CommandHelper.ALBUM, track.getAlbumCover());
-		methodInvocation.put(CommandHelper.PREVIEW, track.getTrackPreview());
-		methodInvocation.put(CommandHelper.LINK, track.getTrackLink());
-		methodInvocation.put(CommandHelper.LYRIC, track.getLyric());
+		methodInvocation.put(CommandHelper.TRACK_INFO, Message.Text(trackInfo));
+		methodInvocation.put(CommandHelper.ALBUM, Message.Image(track.getAlbumCover()));
+		methodInvocation.put(CommandHelper.PREVIEW, Message.Text(track.getTrackPreview()));
+		methodInvocation.put(CommandHelper.LINK, Message.Text(track.getTrackLink()));
+		methodInvocation.put(CommandHelper.LYRIC, Message.Text(track.getLyric()));
 	}
 
 	@Override
 	public BotState nextState(final String msg) {
-		final String toSend = methodInvocation.getOrDefault(msg, WARNING + " Invalid command: " + msg + " " + WARNING);
+		final Message toSend = methodInvocation.getOrDefault(msg,
+				Message.Text(WARNING + " Invalid command: " + msg + " " + WARNING));
 		SENDER.sendMessage(chatId, toSend);
 		return this;
 	}

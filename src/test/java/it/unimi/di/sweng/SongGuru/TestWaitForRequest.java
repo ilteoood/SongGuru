@@ -24,13 +24,13 @@ public class TestWaitForRequest {
 	final String SEPARATOR = "\n";
 	List<String> info = new ArrayList<String>();
 	
-	public Long chatId;
+	public String chatId;
 	
 	
 	@Before
 	public void setup()
 	{
-		chatId = new Long(65193455);
+		chatId = "65193455";
 		info.add("Artist: Sum 41" + SEPARATOR);
 		info.add("Track title: In Too Deep" + SEPARATOR);
 		info.add("Track duration: 03:27" + SEPARATOR);

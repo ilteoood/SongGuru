@@ -13,11 +13,11 @@ import it.unimi.di.sweng.SongGuru.WaitForSong;
 @RunWith(MockitoJUnitRunner.class)
 public class TestWaitForSong {
 
-	public Long chatId;
+	public String chatId;
 
 	@Before
 	public void setup() {
-		chatId = new Long(65193455);
+		chatId = "65193455";
 	}
 
 	@Test

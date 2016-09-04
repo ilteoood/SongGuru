@@ -8,7 +8,7 @@ public class BotApplication extends Application {
 	@Override
 	public Restlet createInboundRoot() {
 		Router router = new Router(getContext());
-		router.attach("/bot/{token}", BotResource.class);
+		router.attach("/webhook", BotResource.class);
 		return router;
 	}
 }

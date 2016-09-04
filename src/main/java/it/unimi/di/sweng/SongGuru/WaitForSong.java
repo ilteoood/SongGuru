@@ -2,13 +2,12 @@ package it.unimi.di.sweng.SongGuru;
 
 import java.util.List;
 
-import com.pengrad.telegrambot.model.request.Keyboard;
-import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+import com.hyurumi.fb_bot_boilerplate.models.send.Button;
 import com.vdurmont.emoji.EmojiParser;
 
 public class WaitForSong implements BotState {
 
-	private final Long chatID;
+	private final String chatID;
 	private static final MessageSender SENDER = BotPersistence.SENDER;
 	private static final String HELLO = EmojiParser.parseToUnicode(":wave:");
 	private static final String SORRY = EmojiParser.parseToUnicode(":flushed:");
@@ -18,7 +17,7 @@ public class WaitForSong implements BotState {
 	private static final String AFFIRMATIVE = EmojiParser.parseToUnicode(":white_check_mark:");
 	private static final String NEGATIVE = EmojiParser.parseToUnicode(":x:");
 
-	public WaitForSong(final Long chatID) {
+	public WaitForSong(final String chatID) {
 		this.chatID = chatID;
 		SENDER.sendMessage(chatID, "Hi! " + HELLO + "\nTell me the title of the track " + MUSIC_NOTE);
 	}
@@ -37,9 +36,10 @@ public class WaitForSong implements BotState {
 		return new WaitForAnswer(chatID, songName, artists);
 	}
 
-	private Keyboard prepareYesNoKeyboard() {
-		final String[][] keyboardMatrix = { { "Yes " + AFFIRMATIVE, "No " + NEGATIVE }, {} };
-		return new ReplyKeyboardMarkup(keyboardMatrix).oneTimeKeyboard(true).resizeKeyboard(true);
+	private Button[] prepareYesNoKeyboard() {
+		final Button[] YesNoButtons = { Button.Postback("Yes " + AFFIRMATIVE, "Yes"),
+				Button.Postback("No " + NEGATIVE, "No") };
+		return YesNoButtons;
 	}
 
 }

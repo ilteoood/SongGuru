@@ -17,70 +17,70 @@ public class TestPersistence {
 	@Test
 	public void testA()
 	{
-		returnState = BotPersistence.INSTANCE.route(42L, CommandHelper.SEARCH_SONG);
+		returnState = BotPersistence.INSTANCE.route("42", CommandHelper.SEARCH_SONG);
 		assertEquals(WaitForSong.class, returnState.getClass());
 	}
 	
 	@Test
 	public void testB()
 	{
-		returnState = BotPersistence.INSTANCE.route(42L, "Hello");
+		returnState = BotPersistence.INSTANCE.route("42", "Hello");
 		assertEquals(WaitForAnswer.class, returnState.getClass());
 	}
 	
 	@Test
 	public void testC()
 	{
-		returnState = BotPersistence.INSTANCE.route(42L, "Yes");
+		returnState = BotPersistence.INSTANCE.route("42", "Yes");
 		assertEquals(WaitForRequest.class, returnState.getClass());
 	}
 	
 	@Test
 	public void testD()
 	{
-		returnState = BotPersistence.INSTANCE.route(42L, CommandHelper.ALBUM);
+		returnState = BotPersistence.INSTANCE.route("42", CommandHelper.ALBUM);
 		assertEquals(WaitForRequest.class, returnState.getClass());
 	}
 	
 	@Test
 	public void testE()
 	{
-		returnState = BotPersistence.INSTANCE.route(43L, CommandHelper.SEARCH_SONG);
+		returnState = BotPersistence.INSTANCE.route("43", CommandHelper.SEARCH_SONG);
 		assertEquals(null, returnState.nextState(""));
 	}
 	
 	@Test
 	public void testF()
 	{
-		returnState = BotPersistence.INSTANCE.route(44L, "ciao");
+		returnState = BotPersistence.INSTANCE.route("44", "ciao");
 		assertEquals(null, returnState);
 	}
 	
 	@Test
 	public void testG()
 	{
-		returnState = BotPersistence.INSTANCE.route(44L, "/start");
+		returnState = BotPersistence.INSTANCE.route("44", "/start");
 		assertEquals(null, returnState);
 	}
 	
 	@Test
 	public void testH()
 	{
-		returnState = BotPersistence.INSTANCE.route(44L, "/help");
+		returnState = BotPersistence.INSTANCE.route("44", "/help");
 		assertEquals(null, returnState);
 	}
 	
 	@Test
 	public void testI()
 	{
-		returnState = BotPersistence.INSTANCE.route(45L, "/ciccio");
+		returnState = BotPersistence.INSTANCE.route("45", "/ciccio");
 		assertEquals(null, returnState);
 	}
 	
 	@Test
 	public void testL()
 	{
-		returnState = BotPersistence.INSTANCE.route(45L, "/mooseca");
+		returnState = BotPersistence.INSTANCE.route("45", "/mooseca");
 		assertEquals(WaitForRequest.class, returnState.getClass());
 	}
 }

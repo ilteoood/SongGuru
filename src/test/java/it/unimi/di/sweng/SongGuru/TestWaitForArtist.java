@@ -11,12 +11,12 @@ import it.unimi.di.sweng.SongGuru.WaitForRequest;
 
 public class TestWaitForArtist {
 
-	public Long chatId;
+	public String chatId;
 	
 	@Before
 	public void setup()
 	{
-		chatId = new Long(65193455);
+		chatId = "65193455";
 	}
 	
 	@Test

@@ -2,22 +2,20 @@ package it.unimi.di.sweng.SongGuru;
 
 import java.util.HashMap;
 
-import com.pengrad.telegrambot.TelegramBotAdapter;
-
 public enum BotPersistence {
 
 	INSTANCE;
 
-	private static final HashMap<Long, BotState> PERSISTENCE = new HashMap<>();
+	private static final HashMap<String, BotState> PERSISTENCE = new HashMap<>();
 	private static final String HELP_MSG = "/searchsong - Search song by title\n"
 			+ "/album - Get the albumart of the found song\n" + "/preview - Get a 30 secs preview of the found song\n"
 			+ "/link - Get the Spotify link of the found song\n" + "/lyric - Get lyrics of the found song\n"
 			+ "/mooseca - Get a random song\n" + "/help - Print this message";
 	private static final String WRONG_MSG = "/searchsong - Search song by title\n" + "/help - Print this message\n"
 			+ "/mooseca - Get a random song";
-	public static final MessageSender SENDER = new MessageSender(TelegramBotAdapter.build(Configs.INSTANCE.BOT_TOKEN));
+	public static final MessageSender SENDER = new MessageSender();
 
-	public synchronized BotState route(final Long chatId, final String msg) {
+	public synchronized BotState route(final String chatId, final String msg) {
 		BotState tempState = null;
 		switch (msg) {
 		case CommandHelper.SEARCH_SONG:

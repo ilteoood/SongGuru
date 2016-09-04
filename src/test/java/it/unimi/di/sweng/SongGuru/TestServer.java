@@ -1,7 +1,6 @@
 package it.unimi.di.sweng.SongGuru;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Rule;
@@ -35,13 +34,6 @@ public class TestServer {
 		} catch (Exception e) {
 			fail();
 		}
-	}
-	
-	@Test
-	public void testSetWebHook()
-	{
-		SetWebHook.main(new String[]{"fake.domain/bot/abc"});
-		assertTrue(systemOutRule.getLog().contains("Telegram response was:BaseResponse"));
 	}
 	
 }

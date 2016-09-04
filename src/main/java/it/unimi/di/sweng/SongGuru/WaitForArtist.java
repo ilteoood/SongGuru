@@ -6,10 +6,10 @@ public class WaitForArtist implements BotState {
 
 	private static final String SORRY_EMOJI = EmojiParser.parseToUnicode(":cold_sweat:");
 	private final String songName;
-	private final Long chatID;
+	private final String chatID;
 	private static final MessageSender SENDER = BotPersistence.SENDER;
 
-	public WaitForArtist(final Long chatID, final String songName) {
+	public WaitForArtist(final String chatID, final String songName) {
 		this.songName = songName;
 		this.chatID = chatID;
 	}

@@ -2,18 +2,18 @@ package it.unimi.di.sweng.SongGuru;
 
 import java.util.List;
 
-import com.pengrad.telegrambot.model.request.Keyboard;
-import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+import com.hyurumi.fb_bot_boilerplate.models.send.Button;
 import com.vdurmont.emoji.EmojiParser;
 
 public class WaitForAnswer implements BotState {
 
-	private final Long chatID;
+	private final String chatID;
 	private final String songName;
 	private final List<String> artistsList;
+	private static final int BUTTON_LIMIT = 3;
 	private static final MessageSender SENDER = BotPersistence.SENDER;
 
-	public WaitForAnswer(final Long chatID, final String songName, final List<String> artistsList) {
+	public WaitForAnswer(final String chatID, final String songName, final List<String> artistsList) {
 		this.chatID = chatID;
 		this.songName = songName;
 		this.artistsList = artistsList;
@@ -32,12 +32,15 @@ public class WaitForAnswer implements BotState {
 		}
 	}
 
-	private Keyboard prepareArtistsKeyboard() {
+	private Button[] prepareArtistsKeyboard() {
 		final int artistsSize = artistsList.size();
-		final String[][] keyboardMatrix = new String[artistsSize - 1][1];
-		for (int i = 1; i < artistsSize; i++)
-			keyboardMatrix[i - 1][0] = artistsList.get(i);
-		return new ReplyKeyboardMarkup(keyboardMatrix).oneTimeKeyboard(true).resizeKeyboard(true);
+		final Button[] artistsButtons = new Button[BUTTON_LIMIT];
+		String artist;
+		for (int i = 1; i < artistsSize && i <= BUTTON_LIMIT; i++) {
+			artist = artistsList.get(i);
+			artistsButtons[i - 1] = Button.Postback(artist, artist);
+		}
+		return artistsButtons;
 	}
 
 }
