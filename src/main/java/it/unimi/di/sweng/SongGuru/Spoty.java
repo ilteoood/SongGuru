@@ -6,6 +6,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.SettableFuture;
+import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
+import com.wrapper.spotify.models.ClientCredentials;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 
@@ -17,12 +22,26 @@ import com.wrapper.spotify.models.Track;
 
 public class Spoty {
 
-	private static final Api API = Api.DEFAULT_API;
+	private static final Api API = Api.builder().clientId(Configs.INSTANCE.CLIENT_ID).clientSecret(Configs.INSTANCE.CLIENT_SECRET).build();
 	private static final int MAX_LIMIT = 50;
 	private static final int MAX_OFFSET = 100000;
 	private static final String ARTIST_QUERY = " artist:";
 	private static final String WILDCARD = "*";
 	private static final Logger LOGGER = Logger.getLogger(Spoty.class.getName());
+
+	static{
+		final ClientCredentialsGrantRequest request = API.clientCredentialsGrant().build();
+		final SettableFuture<ClientCredentials> responseFuture = request.getAsync();
+		Futures.addCallback(responseFuture, new FutureCallback<ClientCredentials>() {
+			@Override
+			public void onSuccess(ClientCredentials clientCredentials) {
+				API.setAccessToken(clientCredentials.getAccessToken());
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {}
+		});
+	}
 
 	public static List<String> getArtists(final String songName) {
 
